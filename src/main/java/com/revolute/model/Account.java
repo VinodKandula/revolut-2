@@ -6,10 +6,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Account {
 
-	@XmlElement
-	private final String accountId;
-	@XmlElement
+	private String accountId;
+
 	private double balance;
+
+	public Account() {
+
+	}
 
 	public Account(String accountId) {
 		this.accountId = accountId;
@@ -18,6 +21,16 @@ public class Account {
 
 	public String getAccountId() {
 		return accountId;
+	}
+
+	@XmlElement
+	public void setAccountId(String accountId) {
+		this.accountId = accountId;
+	}
+
+	@XmlElement
+	public void setBalance(double balance) {
+		this.balance = balance;
 	}
 
 	public double getBalance() {

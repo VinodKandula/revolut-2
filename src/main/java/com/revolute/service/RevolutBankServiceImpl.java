@@ -1,7 +1,7 @@
 package com.revolute.service;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -10,8 +10,8 @@ import com.revolute.model.OperationResult;
 
 public class RevolutBankServiceImpl implements RevolutBankService {
 
-	private Map<String, Account> accounts = new ConcurrentHashMap<>();
-	private Map<String, Lock> accountsLock = new ConcurrentHashMap<>();
+	private Map<String, Account> accounts = new HashMap<>();
+	private Map<String, Lock> accountsLock = new HashMap<>();
 
 	public RevolutBankServiceImpl() {
 
@@ -27,6 +27,7 @@ public class RevolutBankServiceImpl implements RevolutBankService {
 						throw new IllegalArgumentException("Account Already Exists");
 					}
 					accounts.put(accountId, new Account(accountId));
+					accountsLock.put(accountId, new ReentrantLock(true));
 					return new OperationResult(true, "Account Created Successfully!!");
 				}
 			} else {
@@ -42,8 +43,6 @@ public class RevolutBankServiceImpl implements RevolutBankService {
 			checkNull(accountId);
 			Account account = accounts.get(accountId);
 			if (account != null) {
-				checkForLocks(accountId);
-
 				try {
 					acquireLock(accountsLock.get(accountId));
 					account.addMoney(money);
@@ -65,7 +64,6 @@ public class RevolutBankServiceImpl implements RevolutBankService {
 			checkNull(accountId);
 			Account account = accounts.get(accountId);
 			if (account != null) {
-				checkForLocks(accountId);
 				try {
 					acquireLock(accountsLock.get(accountId));
 					account.withdrawMoney(money);
@@ -78,15 +76,6 @@ public class RevolutBankServiceImpl implements RevolutBankService {
 			}
 		} catch (Exception e) {
 			return new OperationResult(false, e.getMessage());
-		}
-	}
-
-	private void checkForLocks(String accountId) {
-		if (accountsLock.get(accountId) == null) {
-			synchronized (RevolutBankServiceImpl.class) {
-				if (accountsLock.get(accountId) == null)
-					accountsLock.put(accountId, new ReentrantLock());
-			}
 		}
 	}
 
@@ -105,8 +94,6 @@ public class RevolutBankServiceImpl implements RevolutBankService {
 			if (toAccount == null) {
 				throw new IllegalArgumentException("Account Id:" + toAccount + " does not exists.");
 			}
-			checkForLocks(fromAccountId);
-			checkForLocks(toAccountId);
 
 			try {
 				Lock fromAccountLock = accountsLock.get(fromAccountId);
@@ -164,16 +151,17 @@ public class RevolutBankServiceImpl implements RevolutBankService {
 	}
 
 	@Override
-	public OperationResult getAccountDetails(String accountId) {
+	public Account getAccountDetails(String accountId) {
 		try {
 			checkNull(accountId);
 			Account account = accounts.get(accountId);
 			if (account == null) {
 				throw new IllegalArgumentException("Acoount does not exists.");
 			}
-			return new OperationResult(true, "Balance :" + account.getBalance());
+
+			return account;
 		} catch (Exception e) {
-			return new OperationResult(false, e.getMessage());
+			return null;
 		}
 
 	}

@@ -9,6 +9,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.revolute.model.Account;
 import com.revolute.model.OperationResult;
 import com.revolute.service.RevolutBankService;
 
@@ -30,7 +31,7 @@ public class RevolutBankResource {
 	@GET
 	@Path("/account/{accountId}")
 	@Produces(MediaType.APPLICATION_XML)
-	public OperationResult getAccountDetails(@PathParam("accountId") String accountId) {
+	public Account getAccountDetails(@PathParam("accountId") String accountId) {
 		return revolutBankService.getAccountDetails(accountId);
 
 	}
