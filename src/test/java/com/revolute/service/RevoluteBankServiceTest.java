@@ -10,11 +10,9 @@ import org.junit.Test;
 
 import com.revolute.model.Account;
 import com.revolute.model.OperationResult;
-import com.revolute.service.RevolutBankService;
-import com.revolute.service.RevolutBankServiceImpl;
 
 public class RevoluteBankServiceTest {
-	private RevolutBankService service = new RevolutBankServiceImpl();
+	private RevoluteBankService service = new RevoluteBankServiceImpl();
 
 	private void createAccountTest(String accountId) {
 		OperationResult operationResult = service.createAccount(accountId);
@@ -27,25 +25,25 @@ public class RevoluteBankServiceTest {
 	public void testAll() throws InterruptedException {
 		String accountId1 = "shailendra";
 		String accountId2 = "amit";
-		OperationResult operationResult = service.addMoney(accountId1, 20000);
+		OperationResult operationResult = service.deposite(accountId1, 20000);
 		Assert.assertFalse(operationResult.isSuccess());
 		createAccountTest(accountId1);
-		operationResult = service.addMoney(accountId1, 20000);
+		operationResult = service.deposite(accountId1, 20000);
 		Assert.assertTrue(operationResult.isSuccess());
 		Account account = service.getAccountDetails(accountId1);
 		Assert.assertEquals(account.getBalance(), 20000, 0);
 
-		operationResult = service.withdrawMoney(accountId2, 1000);
+		operationResult = service.withdraw(accountId2, 1000);
 		Assert.assertFalse(operationResult.isSuccess());
 		createAccountTest(accountId2);
 
-		operationResult = service.withdrawMoney(accountId2, 1000);
+		operationResult = service.withdraw(accountId2, 1000);
 		Assert.assertFalse(operationResult.isSuccess());
 
-		operationResult = service.addMoney(accountId2, 2000);
+		operationResult = service.deposite(accountId2, 2000);
 
 		Assert.assertTrue(operationResult.isSuccess());
-		operationResult = service.withdrawMoney(accountId2, 1000);
+		operationResult = service.withdraw(accountId2, 1000);
 		Assert.assertTrue(operationResult.isSuccess());
 
 		Account account1 = service.getAccountDetails(accountId1);
@@ -61,7 +59,7 @@ public class RevoluteBankServiceTest {
 
 				@Override
 				public void run() {
-					service.transferMoney(accountId1, accountId2, r.nextInt(50));
+					service.transfer(accountId1, accountId2, r.nextInt(50));
 					Account acc1 = service.getAccountDetails(accountId1);
 					Account acc2 = service.getAccountDetails(accountId2);
 					Assert.assertEquals(totalBalance, acc1.getBalance()+acc2.getBalance(),0);
@@ -76,7 +74,7 @@ public class RevoluteBankServiceTest {
 
 				@Override
 				public void run() {
-					service.transferMoney(accountId2, accountId1, r.nextInt(50));
+					service.transfer(accountId2, accountId1, r.nextInt(50));
 					Account acc1 = service.getAccountDetails(accountId1);
 					Account acc2 = service.getAccountDetails(accountId2);
 					Assert.assertEquals(totalBalance, acc1.getBalance()+acc2.getBalance(),0);

@@ -11,20 +11,20 @@ import javax.ws.rs.core.MediaType;
 
 import com.revolute.model.Account;
 import com.revolute.model.OperationResult;
-import com.revolute.service.RevolutBankService;
+import com.revolute.service.RevoluteBankService;
 
-@Path("/revolut")
+@Path("/revolute")
 @Singleton
-public class RevolutBankResource {
+public class RevoluteBankResource {
 
 	@Inject
-	RevolutBankService revolutBankService;
+	RevoluteBankService revoluteBankService;
 
 	@POST
 	@Path("/account/{accountId}")
 	@Produces(MediaType.APPLICATION_XML)
 	public OperationResult createAccount(@PathParam("accountId") String accountId) {
-		return revolutBankService.createAccount(accountId);
+		return revoluteBankService.createAccount(accountId);
 
 	}
 
@@ -32,7 +32,7 @@ public class RevolutBankResource {
 	@Path("/account/{accountId}")
 	@Produces(MediaType.APPLICATION_XML)
 	public Account getAccountDetails(@PathParam("accountId") String accountId) {
-		return revolutBankService.getAccountDetails(accountId);
+		return revoluteBankService.getAccountDetails(accountId);
 
 	}
 
@@ -40,7 +40,7 @@ public class RevolutBankResource {
 	@Path("/account/{accountId}/deposite/{amount}")
 	@Produces(MediaType.APPLICATION_XML)
 	public OperationResult deposite(@PathParam("accountId") String accountId, @PathParam("amount") double amount) {
-		return revolutBankService.addMoney(accountId, amount);
+		return revoluteBankService.deposite(accountId, amount);
 
 	}
 
@@ -48,7 +48,7 @@ public class RevolutBankResource {
 	@Path("/account/{accountId}/withdraw/{amount}")
 	@Produces(MediaType.APPLICATION_XML)
 	public OperationResult withdraw(@PathParam("accountId") String accountId, @PathParam("amount") double amount) {
-		return revolutBankService.withdrawMoney(accountId, amount);
+		return revoluteBankService.withdraw(accountId, amount);
 
 	}
 
@@ -57,7 +57,7 @@ public class RevolutBankResource {
 	@Produces(MediaType.APPLICATION_XML)
 	public OperationResult tranfer(@PathParam("fromAccountId") String fromAccountId,
 			@PathParam("toAccountId") String toAccountId, @PathParam("amount") double amount) {
-		return revolutBankService.transferMoney(fromAccountId, toAccountId, amount);
+		return revoluteBankService.transfer(fromAccountId, toAccountId, amount);
 
 	}
 

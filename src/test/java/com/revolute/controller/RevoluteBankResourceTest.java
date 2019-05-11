@@ -19,20 +19,20 @@ import com.google.inject.Binder;
 import com.revolute.controller.util.JettyGuiceRestEasyTest;
 import com.revolute.model.Account;
 import com.revolute.model.OperationResult;
-import com.revolute.service.RevolutBankService;
-import com.revolute.service.RevolutBankServiceImpl;
+import com.revolute.service.RevoluteBankService;
+import com.revolute.service.RevoluteBankServiceImpl;
 
-public class RevolutBankResourceTest extends JettyGuiceRestEasyTest {
+public class RevoluteBankResourceTest extends JettyGuiceRestEasyTest {
 	@Override
 	protected void configure(Binder b) {
-		b.bind(RevolutBankResource.class);
-		b.bind(RevolutBankService.class).toInstance(new RevolutBankServiceImpl());
+		b.bind(RevoluteBankResource.class);
+		b.bind(RevoluteBankService.class).toInstance(new RevoluteBankServiceImpl());
 	}
 
 	@Test
 	public void testAll() {
 		Client client = ClientBuilder.newClient();
-		WebTarget target = client.target("http://localhost:8080/revolut/account/shailendra");
+		WebTarget target = client.target("http://localhost:8080/revolute/account/shailendra");
 		Response response = target.request().post(null);
 		try {
 			Assert.assertEquals(200, response.getStatus());
@@ -52,7 +52,7 @@ public class RevolutBankResourceTest extends JettyGuiceRestEasyTest {
 			response.close();
 		}
 
-		target = client.target("http://localhost:8080/revolut/account/shailendra/deposite/100");
+		target = client.target("http://localhost:8080/revolute/account/shailendra/deposite/100");
 		response = target.request().post(null);
 		try {
 			Assert.assertEquals(200, response.getStatus());
@@ -63,7 +63,7 @@ public class RevolutBankResourceTest extends JettyGuiceRestEasyTest {
 
 		}
 
-		target = client.target("http://localhost:8080/revolut/account/shailendra/withdraw/50");
+		target = client.target("http://localhost:8080/revolute/account/shailendra/withdraw/50");
 		response = target.request().post(null);
 		try {
 			Assert.assertEquals(200, response.getStatus());
@@ -74,7 +74,7 @@ public class RevolutBankResourceTest extends JettyGuiceRestEasyTest {
 
 		}
 
-		target = client.target("http://localhost:8080/revolut/account/shailendra");
+		target = client.target("http://localhost:8080/revolute/account/shailendra");
 		response = target.request().get();
 		try {
 			Assert.assertEquals(200, response.getStatus());
@@ -86,7 +86,7 @@ public class RevolutBankResourceTest extends JettyGuiceRestEasyTest {
 
 		}
 
-		target = client.target("http://localhost:8080/revolut/account/amit");
+		target = client.target("http://localhost:8080/revolute/account/amit");
 		response = target.request().get();
 		try {
 			Assert.assertEquals(204, response.getStatus());
@@ -96,7 +96,7 @@ public class RevolutBankResourceTest extends JettyGuiceRestEasyTest {
 			response.close();
 		}
 
-		target = client.target("http://localhost:8080/revolut/account/amit");
+		target = client.target("http://localhost:8080/revolute/account/amit");
 		response = target.request().post(null);
 		try {
 			Assert.assertEquals(200, response.getStatus());
@@ -106,18 +106,7 @@ public class RevolutBankResourceTest extends JettyGuiceRestEasyTest {
 			response.close();
 		}
 
-		target = client.target("http://localhost:8080/revolut/account/amit/deposite/500");
-		response = target.request().post(null);
-		try {
-			Assert.assertEquals(200, response.getStatus());
-			OperationResult operationResult = response.readEntity(OperationResult.class);
-			Assert.assertTrue(operationResult.isSuccess());
-		} finally {
-			response.close();
-
-		}
-
-		target = client.target("http://localhost:8080/revolut/transfer/amit/shailendra/50");
+		target = client.target("http://localhost:8080/revolute/account/amit/deposite/500");
 		response = target.request().post(null);
 		try {
 			Assert.assertEquals(200, response.getStatus());
@@ -128,7 +117,18 @@ public class RevolutBankResourceTest extends JettyGuiceRestEasyTest {
 
 		}
 
-		target = client.target("http://localhost:8080/revolut/account/amit");
+		target = client.target("http://localhost:8080/revolute/transfer/amit/shailendra/50");
+		response = target.request().post(null);
+		try {
+			Assert.assertEquals(200, response.getStatus());
+			OperationResult operationResult = response.readEntity(OperationResult.class);
+			Assert.assertTrue(operationResult.isSuccess());
+		} finally {
+			response.close();
+
+		}
+
+		target = client.target("http://localhost:8080/revolute/account/amit");
 		response = target.request().get();
 		try {
 			Assert.assertEquals(200, response.getStatus());
@@ -138,7 +138,7 @@ public class RevolutBankResourceTest extends JettyGuiceRestEasyTest {
 			response.close();
 		}
 
-		target = client.target("http://localhost:8080/revolut/account/shailendra");
+		target = client.target("http://localhost:8080/revolute/account/shailendra");
 		response = target.request().get();
 		try {
 			Assert.assertEquals(200, response.getStatus());
@@ -148,7 +148,7 @@ public class RevolutBankResourceTest extends JettyGuiceRestEasyTest {
 			response.close();
 		}
 
-		target = client.target("http://localhost:8080/revolut/transfer/shailendra/shailendra/100");
+		target = client.target("http://localhost:8080/revolute/transfer/shailendra/shailendra/100");
 		response = target.request().post(null);
 		try {
 			Assert.assertEquals(200, response.getStatus());
@@ -159,7 +159,7 @@ public class RevolutBankResourceTest extends JettyGuiceRestEasyTest {
 
 		}
 
-		target = client.target("http://localhost:8080/revolut/transfer/shailendra/amit/500");
+		target = client.target("http://localhost:8080/revolute/transfer/shailendra/amit/500");
 		response = target.request().post(null);
 		try {
 			Assert.assertEquals(200, response.getStatus());
@@ -181,7 +181,7 @@ public class RevolutBankResourceTest extends JettyGuiceRestEasyTest {
 		CountDownLatch latch = new CountDownLatch(2000);
 
 		Client client = ClientBuilder.newClient();
-		WebTarget target = client.target("http://localhost:8080/revolut/account/xyz");
+		WebTarget target = client.target("http://localhost:8080/revolute/account/xyz");
 		Response response = target.request().post(null);
 		try {
 			Assert.assertEquals(200, response.getStatus());
@@ -191,7 +191,7 @@ public class RevolutBankResourceTest extends JettyGuiceRestEasyTest {
 			response.close();
 		}
 
-		target = client.target("http://localhost:8080/revolut/account/abc");
+		target = client.target("http://localhost:8080/revolute/account/abc");
 		response = target.request().post(null);
 		try {
 			Assert.assertEquals(200, response.getStatus());
@@ -201,7 +201,7 @@ public class RevolutBankResourceTest extends JettyGuiceRestEasyTest {
 			response.close();
 		}
 
-		target = client.target("http://localhost:8080/revolut/account/xyz/deposite/50000");
+		target = client.target("http://localhost:8080/revolute/account/xyz/deposite/50000");
 		response = target.request().post(null);
 		try {
 			Assert.assertEquals(200, response.getStatus());
@@ -212,7 +212,7 @@ public class RevolutBankResourceTest extends JettyGuiceRestEasyTest {
 
 		}
 
-		target = client.target("http://localhost:8080/revolut/account/abc/deposite/30000");
+		target = client.target("http://localhost:8080/revolute/account/abc/deposite/30000");
 		response = target.request().post(null);
 		try {
 			Assert.assertEquals(200, response.getStatus());
@@ -235,7 +235,7 @@ public class RevolutBankResourceTest extends JettyGuiceRestEasyTest {
 				public void run() {
 					Client client = ClientBuilder.newClient();
 					int x = random1.nextInt(100) + 1;
-					WebTarget target = client.target("http://localhost:8080/revolut/transfer/xyz/abc/" + x);
+					WebTarget target = client.target("http://localhost:8080/revolute/transfer/xyz/abc/" + x);
 					Response response = target.request().post(null);
 					try {
 						Assert.assertEquals(200, response.getStatus());
@@ -260,7 +260,7 @@ public class RevolutBankResourceTest extends JettyGuiceRestEasyTest {
 				public void run() {
 					Client client = ClientBuilder.newClient();
 					int x = random2.nextInt(100) + 1;
-					WebTarget target = client.target("http://localhost:8080/revolut/transfer/abc/xyz/" + x);
+					WebTarget target = client.target("http://localhost:8080/revolute/transfer/abc/xyz/" + x);
 					Response response = target.request().post(null);
 					try {
 						Assert.assertEquals(200, response.getStatus());
@@ -286,7 +286,7 @@ public class RevolutBankResourceTest extends JettyGuiceRestEasyTest {
 		}
 
 		Account accountAbc = null;
-		target = client.target("http://localhost:8080/revolut/account/abc");
+		target = client.target("http://localhost:8080/revolute/account/abc");
 		response = target.request().get();
 		try {
 			Assert.assertEquals(200, response.getStatus());
@@ -297,7 +297,7 @@ public class RevolutBankResourceTest extends JettyGuiceRestEasyTest {
 		}
 
 		Account accountXyz = null;
-		target = client.target("http://localhost:8080/revolut/account/xyz");
+		target = client.target("http://localhost:8080/revolute/account/xyz");
 		response = target.request().get();
 		try {
 			Assert.assertEquals(200, response.getStatus());

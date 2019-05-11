@@ -12,9 +12,9 @@ import org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
-import com.revolute.controller.RevolutBankResource;
-import com.revolute.service.RevolutBankService;
-import com.revolute.service.RevolutBankServiceImpl;
+import com.revolute.controller.RevoluteBankResource;
+import com.revolute.service.RevoluteBankService;
+import com.revolute.service.RevoluteBankServiceImpl;
 
 public class Main {
 
@@ -42,14 +42,14 @@ public class Main {
 
 		@Provides
 		@Singleton
-		public RevolutBankService getRevolutBankService() {
-			return new RevolutBankServiceImpl();
+		public RevoluteBankService getRevolutBankService() {
+			return new RevoluteBankServiceImpl();
 		}
 
 		@Override
 		protected void configure() {
 			super.configure();
-			bind(RevolutBankResource.class);
+			bind(RevoluteBankResource.class);
 		}
 
 	}

@@ -8,12 +8,12 @@ import java.util.concurrent.locks.ReentrantLock;
 import com.revolute.model.Account;
 import com.revolute.model.OperationResult;
 
-public class RevolutBankServiceImpl implements RevolutBankService {
+public class RevoluteBankServiceImpl implements RevoluteBankService {
 
 	private Map<String, Account> accounts = new HashMap<>();
 	private Map<String, Lock> accountsLock = new HashMap<>();
 
-	public RevolutBankServiceImpl() {
+	public RevoluteBankServiceImpl() {
 
 	}
 
@@ -22,7 +22,7 @@ public class RevolutBankServiceImpl implements RevolutBankService {
 		try {
 			checkNull(accountId);
 			if (!accounts.containsKey(accountId)) {
-				synchronized (RevolutBankServiceImpl.class) {
+				synchronized (RevoluteBankServiceImpl.class) {
 					if (accounts.containsKey(accountId)) {
 						throw new IllegalArgumentException("Account Already Exists");
 					}
@@ -38,7 +38,7 @@ public class RevolutBankServiceImpl implements RevolutBankService {
 		}
 	}
 
-	public OperationResult addMoney(String accountId, double money) {
+	public OperationResult deposite(String accountId, double money) {
 		try {
 			checkNull(accountId);
 			Account account = accounts.get(accountId);
@@ -59,7 +59,7 @@ public class RevolutBankServiceImpl implements RevolutBankService {
 
 	}
 
-	public OperationResult withdrawMoney(String accountId, double money) {
+	public OperationResult withdraw(String accountId, double money) {
 		try {
 			checkNull(accountId);
 			Account account = accounts.get(accountId);
@@ -79,7 +79,7 @@ public class RevolutBankServiceImpl implements RevolutBankService {
 		}
 	}
 
-	public OperationResult transferMoney(String fromAccountId, String toAccountId, double money) {
+	public OperationResult transfer(String fromAccountId, String toAccountId, double money) {
 		try {
 			checkNull(fromAccountId);
 			checkNull(toAccountId);
@@ -88,11 +88,11 @@ public class RevolutBankServiceImpl implements RevolutBankService {
 			}
 			Account fromAccount = accounts.get(fromAccountId);
 			if (fromAccount == null) {
-				throw new IllegalArgumentException("Account Id:" + fromAccount + " does not exists.");
+				throw new IllegalArgumentException("Account Id:" + fromAccountId + " does not exists.");
 			}
 			Account toAccount = accounts.get(toAccountId);
 			if (toAccount == null) {
-				throw new IllegalArgumentException("Account Id:" + toAccount + " does not exists.");
+				throw new IllegalArgumentException("Account Id:" + toAccountId + " does not exists.");
 			}
 
 			try {
