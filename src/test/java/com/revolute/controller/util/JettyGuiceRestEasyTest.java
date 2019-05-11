@@ -22,7 +22,7 @@ public abstract class JettyGuiceRestEasyTest {
 
 		server = new Server(8080);
 		ServletContextHandler servletHandler = new ServletContextHandler();
-		servletHandler.addEventListener(Guice.createInjector(new TestModule())
+		servletHandler.addEventListener(Guice.createInjector(new RevoluteServiceTestModule())
 				.getInstance((GuiceResteasyBootstrapServletContextListener.class)));
 		servletHandler.addServlet(HttpServletDispatcher.class, "/*");
 
@@ -39,7 +39,7 @@ public abstract class JettyGuiceRestEasyTest {
 		return;
 	}
 
-	private class TestModule extends RequestScopeModule {
+	private class RevoluteServiceTestModule extends RequestScopeModule {
 
 		@Override
 		protected void configure() {

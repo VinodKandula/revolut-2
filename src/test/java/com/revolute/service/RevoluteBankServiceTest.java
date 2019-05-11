@@ -64,8 +64,6 @@ public class RevoluteBankServiceTest {
 					service.transferMoney(accountId1, accountId2, r.nextInt(50));
 					Account acc1 = service.getAccountDetails(accountId1);
 					Account acc2 = service.getAccountDetails(accountId2);
-					System.out.println("Acc1 Balance:"+acc1.getBalance() +" " +Thread.currentThread().getName() );
-					System.out.println("Acc2 Balance:"+acc2.getBalance() +" " +Thread.currentThread().getName() );
 					Assert.assertEquals(totalBalance, acc1.getBalance()+acc2.getBalance(),0);
 				}
 			});
@@ -81,14 +79,12 @@ public class RevoluteBankServiceTest {
 					service.transferMoney(accountId2, accountId1, r.nextInt(50));
 					Account acc1 = service.getAccountDetails(accountId1);
 					Account acc2 = service.getAccountDetails(accountId2);
-					System.out.println("Acc1 Balance:"+acc1.getBalance() +" " +Thread.currentThread().getName() );
-					System.out.println("Acc2 Balance:"+acc2.getBalance() +" " +Thread.currentThread().getName() );
 					Assert.assertEquals(totalBalance, acc1.getBalance()+acc2.getBalance(),0);
 				}
 			});
 			
 		}
-
+		
 		
 		service1.shutdown();
 		service2.shutdown();

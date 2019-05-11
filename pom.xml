@@ -6,7 +6,7 @@
 
 	<groupId>com.revolut</groupId>
 	<artifactId>RevolutBank</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 
 	<dependencies>
 		<dependency>
@@ -18,11 +18,6 @@
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
 			<version>4.2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.annotation</groupId>
-			<artifactId>jsr250-api</artifactId>
-			<version>1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
@@ -53,7 +48,6 @@
 			<artifactId>resteasy-jaxb-provider</artifactId>
 			<version>3.6.3.Final</version>
 		</dependency>
-		<!-- TESTS -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -63,16 +57,10 @@
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-client</artifactId>
-			<version>3.0.7.Final</version>
+			<version>3.6.3.Final</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<artifactId>httpclient</artifactId>
-			<groupId>org.apache.httpcomponents</groupId>
-			<type>jar</type>
-			<version>4.3.3</version>
-			<scope>test</scope>
-		</dependency>
+		
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
@@ -101,7 +89,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>Main</mainClass>
+							<mainClass>com.revolute.core.Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -112,7 +100,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>Main</mainClass>
+							<mainClass>com.revolute.core.Main</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
@@ -121,8 +109,8 @@
 				</configuration>
 				<executions>
 					<execution>
-						<id>make-assembly</id> <!-- this is used for inheritance merges -->
-						<phase>install</phase> <!-- bind to the packaging phase -->
+						<id>make-assembly</id> 
+						<phase>install</phase>
 						<goals>
 							<goal>single</goal>
 						</goals>
@@ -134,10 +122,11 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.2.1</version>
 				<configuration>
-					<mainClass>Main</mainClass>
+					<mainClass>com.revolute.core.Main</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>RevoluteBank</finalName>
 	</build>
 
 </project>
